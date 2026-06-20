@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Blue Cub AI</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI';
+  background:linear-gradient(135deg,#eef2ff,#c7d2fe,#a5b4fc);
+}
+
+/* PAGE SYSTEM */
+.page{
+  display:none;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+}
+.active{display:flex}
+
+/* CARD */
+.card{
+  width:420px;
+  background:white;
+  padding:20px;
+  border-radius:22px;
+  box-shadow:0 0 30px #818cf8;
+  text-align:center;
+}
+
+/* TEXT */
+h1,h2{
+  color:#4f46e5;
+}
+
+/* INPUT */
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:10px;
+  border:1px solid #c7d2fe;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg,#818cf8,#60a5fa);
+  color:white;
+  cursor:pointer;
+  margin-top:5px;
+}
+
+/* PANDA */
+.panda{
+  font-size:60px;
+}
+
+/* CHAT */
+.chatbox{
+  background:#eef2ff;
+  height:120px;
+  overflow:auto;
+  padding:10px;
+  border-radius:10px;
+  font-size:13px;
+  text-align:left;
+}
+
+/* NOTES */
+.notes{
+  text-align:left;
+  background:#eef2ff;
+  padding:10px;
+  border-radius:10px;
+  height:220px;
+  overflow:auto;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- WELCOME -->
+<div class="page active" id="welcome">
+  <div class="card">
+    <h1>🌌 Blue Cub AI</h1>
+    <p>Your Smart Study Companion 💙</p>
+    <button onclick="go('login')">Start</button>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="page" id="login">
+  <div class="card">
+    <h2>Login</h2>
+    <input id="user" placeholder="Username">
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">Enter</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page" id="dash">
+  <div class="card">
+
+    <div class="panda">🐼</div>
+    <h2 id="hi"></h2>
+
+    <p>📊 Study Dashboard</p>
+
+    <button onclick="go('notes')">📘 Notes</button>
+    <button onclick="go('timer')">📚 Timer</button>
+    <button onclick="go('chat')">💬 Chat</button>
+    <button onclick="go('game')">🍎 Game</button>
+
+  </div>
+</div>
+
+<!-- NOTES PAGE -->
+<div class="page" id="notes">
+  <div class="card">
+
+    <h2>📘 Study Notes</h2>
+
+    <button onclick="show('python')">Python</button>
+    <button onclick="show('java')">Java</button>
+
+    <!-- PYTHON -->
+    <div id="python" class="notes">
+      <b>🐍 Python Notes</b><br><br>
+
+      Python is easy programming language used for AI & web.<br><br>
+
+      <b>Basics:</b><br>
+      x = 10<br>
+      name = "Blue Cub"<br><br>
+
+      <b>Conditions:</b><br>
+      if x > 5:<br>
+      &nbsp;&nbsp;print("Big number")<br><br>
+
+      <b>Loop:</b><br>
+      for i in range(5):<br>
+      &nbsp;&nbsp;print(i)
+    </div>
+
+    <!-- JAVA -->
+    <div id="java" class="notes" style="display:none;">
+      <b>☕ Java Notes</b><br><br>
+
+      Java is object-oriented language.<br><br>
+
+      <b>Example:</b><br>
+      class Main {<br>
+      &nbsp;&nbsp;public static void main(String[] args){<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Hello");<br>
+      &nbsp;&nbsp;}<br>
+      }<br><br>
+
+      <b>Variables:</b><br>
+      int a = 10;<br>
+      String name = "Blue Cub";
+    </div>
+
+    <button onclick="go('dash')">⬅ Back</button>
+
+  </div>
+</div>
+
+<!-- TIMER -->
+<div class="page" id="timer">
+  <div class="card">
+    <h2>📚 Timer</h2>
+    <input id="t" placeholder="seconds">
+    <button onclick="startTimer()">Start</button>
+    <button onclick="go('dash')">Back</button>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div class="page" id="chat">
+  <div class="card">
+    <h2>💬 Chat</h2>
+
+    <div class="chatbox" id="chatbox">
+      🐼 Hi I am Blue Cub AI 💙
+    </div>
+
+    <input id="msg">
+    <button onclick="talk()">Send</button>
+    <button onclick="go('dash')">Back</button>
+
+  </div>
+</div>
+
+<!-- GAME -->
+<div class="page" id="game">
+  <div class="card">
+    <h2>🍎 Game</h2>
+    <div id="fruit">🍎🍌🍇</div>
+    <button onclick="play()">Play</button>
+    <button onclick="go('dash')">Back</button>
+  </div>
+</div>
+
+<script>
+
+let user="";
+
+/* NAVIGATION */
+function go(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+/* LOGIN */
+function login(){
+  user=document.getElementById("user").value;
+  document.getElementById("hi").innerText="Hi "+user+" 💙 Welcome!";
+  go('dash');
+}
+
+/* NOTES SWITCH */
+function show(type){
+  document.getElementById("python").style.display="none";
+  document.getElementById("java").style.display="none";
+  document.getElementById(type).style.display="block";
+}
+
+/* TIMER */
+function startTimer(){
+  let t=document.getElementById("t").value;
+  setTimeout(()=>alert("⏰ Time Done!"),t*1000);
+}
+
+/* CHAT */
+function talk(){
+  let m=document.getElementById("msg").value;
+  if(!m) return;
+
+  document.getElementById("chatbox").innerHTML +=
+  "<br>You: " + m;
+
+  document.getElementById("chatbox").innerHTML +=
+  "<br>🐼: Keep going 💙";
+}
+
+/* GAME */
+function play(){
+  let f=["🍎","🍌","🍇","🍉","🍊"];
+  document.getElementById("fruit").innerText =
+    f[Math.floor(Math.random()*f.length)] +
+    f[Math.floor(Math.random()*f.length)];
+}
+
+</script>
+
+</body>
+</html>
